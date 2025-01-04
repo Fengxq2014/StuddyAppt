@@ -1,7 +1,7 @@
 FROM rust:1.83-alpine3.20 as build
 WORKDIR /app
 COPY . /app/
-RUN cargo build --release
+RUN rustup target add x86_64-unknown-linux-musl && cargo build --release
 
 FROM alpine:3.20
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories
