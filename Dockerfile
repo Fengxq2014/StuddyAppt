@@ -1,6 +1,6 @@
 FROM rust:1.83-alpine3.20 as build
 WORKDIR /app
-COPY src /app/src
+COPY . /app/
 RUN cargo build --release
 
 FROM alpine:3.20
@@ -8,6 +8,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositorie
 RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
 RUN apk add ca-certificates
 WORKDIR /app
-COPY --from=build /app/target/release/watchman .
+COPY --from=build /app/target/release/watchman /app/
 EXPOSE 3000
 CMD ["/app/watchman"]
