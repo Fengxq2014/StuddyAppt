@@ -6,7 +6,7 @@ edition = "2021"
 
 [dependencies]
 axum = "0.8.1"
-tokio = "1.42.0"
+tokio = { version = "1.42.0", features = ["rt-multi-thread"] }
 #lapin = "2.5.0"
 #futures-lite = "2.5.0"
 #tracing = "0.1.41"
