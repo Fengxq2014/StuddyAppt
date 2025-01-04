@@ -1,5 +1,5 @@
 FROM rust:1.83-alpine3.20
-WORKDIR /app
 RUN cargo build --release
+RUN mkdir "/app"
 COPY target/release/watchman /app/
 CMD ["/app/watchman"]
