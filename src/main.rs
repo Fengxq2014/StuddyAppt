@@ -5,6 +5,7 @@ async fn main() {
     // build our application with a route
     let app = Router::new().route("/", get(handler));
 
+
     // run it
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await
