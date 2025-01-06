@@ -9,5 +9,4 @@ RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && ech
 RUN apk add ca-certificates
 WORKDIR /app
 COPY --from=build /app/target/release/watchman /app/
-EXPOSE 3000
 CMD ["/app/watchman"]
