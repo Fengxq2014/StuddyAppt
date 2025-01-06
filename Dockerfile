@@ -1,4 +1,4 @@
-FROM rust:1.83-alpine3.20 as build
+FROM rust:1.83 as build
 WORKDIR /app
 COPY . /app/
 RUN cargo build --release
