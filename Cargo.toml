@@ -1,14 +1,12 @@
 [package]
-name = "watchman"
+name = "StuddyAppt"
 version = "0.1.0"
 edition = "2021"
 
 
 [dependencies]
-axum = "0.8.1"
-tokio = { version = "1.42.0", features = ["rt-multi-thread"] }
-#lapin = "2.5.0"
-#futures-lite = "2.5.0"
-#tracing = "0.1.41"
-#tracing-subscriber = "0.3.0"
-#async-global-executor = "^2.0"
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
+env_logger = "0.11"
+log = "0.4"
+chrono = "0.4"

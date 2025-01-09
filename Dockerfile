@@ -11,4 +11,4 @@ RUN #apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && ec
 RUN #apk add ca-certificates
 #WORKDIR /app
 #COPY /app/target/release/watchman /app/
-CMD ["/app/target/release/watchman"]
+CMD ["/app/target/release/StuddyAppt"]
