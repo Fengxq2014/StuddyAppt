@@ -4,15 +4,15 @@ ENV TZ=Asia/Shanghai \
 RUN ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY . /app/
-RUN echo '[source.crates-io]
-          replace-with = 'rsproxy-sparse'
-          [source.rsproxy]
-          registry = "https://rsproxy.cn/crates.io-index"
-          [source.rsproxy-sparse]
-          registry = "sparse+https://rsproxy.cn/index/"
-          [registries.rsproxy]
-          index = "https://rsproxy.cn/crates.io-index"
-          [net]
+RUN echo '[source.crates-io]\
+          replace-with = 'rsproxy-sparse'\
+          [source.rsproxy]\
+          registry = "https://rsproxy.cn/crates.io-index"\
+          [source.rsproxy-sparse]\
+          registry = "sparse+https://rsproxy.cn/index/"\
+          [registries.rsproxy]\
+          index = "https://rsproxy.cn/crates.io-index"\
+          [net]\
           git-fetch-with-cli = true' > ~/.cargo/config
 RUN cargo build --release
 
