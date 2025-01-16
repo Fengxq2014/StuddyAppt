@@ -50,7 +50,7 @@ pub fn create_user (pool: &Pool, open_id: String, phone:String, name :String) ->
 
 fn insert_user_data(conn: &mut PooledConn, open_id: String, phone: String, name: String) -> mysql::error::Result<u64> {
     conn.exec_drop(
-        "INSERT INTO users VALUES (:open_id, :phone, :name)",
+        "INSERT INTO t_user VALUES (:open_id, :phone, :name)",
         params! {
             "open_id" => open_id,
             "phone" => phone,
