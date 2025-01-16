@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::future::{ready, Ready};
 use actix_web::{get, post, web, App, FromRequest, HttpRequest, HttpResponse, HttpServer, Responder, Result};
 use chrono::Local;
@@ -58,6 +59,12 @@ impl FromRequest for WxOpenId {
             }
         }
         ready(Err(ErrorBadRequest("wx openid header not found")))
+    }
+}
+
+impl Display for WxOpenId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
