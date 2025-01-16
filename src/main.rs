@@ -1,4 +1,4 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, Result};
+use actix_web::{get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder, Result};
 use chrono::Local;
 use log::{info, LevelFilter};
 use serde::Serialize;
@@ -43,7 +43,14 @@ struct MyObj {
     name: String,
 }
 #[get("/")]
-async fn hello() -> Result<impl Responder> {
+async fn hello(req: HttpRequest) -> Result<impl Responder> {
+    let mut headers_str = String::new();
+    for (name, value) in req.headers().iter() {
+        if let Ok(value_str) = value.to_str() {
+            headers_str.push_str(&format!("{}: {}\n", name, value_str));
+        }
+    }
+    info!("headers: {}", headers_str);
     info!("hello");
     let obj = MyObj {
         name: String::from("Hello World"),
