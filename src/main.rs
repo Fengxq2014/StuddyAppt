@@ -1,8 +1,11 @@
-use actix_web::{get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder, Result};
+use std::future::{ready, Ready};
+use actix_web::{get, post, web, App, FromRequest, HttpRequest, HttpResponse, HttpServer, Responder, Result};
 use chrono::Local;
 use log::{info, LevelFilter};
 use serde::Serialize;
 use std::io::Write;
+use actix_web::dev::Payload;
+use actix_web::error::ErrorBadRequest;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -42,15 +45,25 @@ fn log_settings() {
 struct MyObj {
     name: String,
 }
-#[get("/")]
-async fn hello(req: HttpRequest) -> Result<impl Responder> {
-    let mut headers_str = String::new();
-    for (name, value) in req.headers().iter() {
-        if let Ok(value_str) = value.to_str() {
-            headers_str.push_str(&format!("{}: {}\n", name, value_str));
+
+struct WxOpenId(String);
+
+impl FromRequest for WxOpenId {
+    type Error = actix_web::Error;
+    type Future = Ready<Result<Self, Self::Error>>;
+    fn from_request(req: &HttpRequest, payload: &mut Payload) -> Self::Future {
+        if let Some(user_agent) = req.headers().get("x-wx-openid") {
+            if let Ok(user_agent_str) = user_agent.to_str() {
+                return ready(Ok(WxOpenId(user_agent_str.to_string())));
+            }
         }
+        ready(Err(ErrorBadRequest("wx openid header not found")))
     }
-    info!("headers: {}", headers_str);
+}
+
+#[get("/")]
+async fn hello(openid: WxOpenId) -> Result<impl Responder> {
+    info!("openid: {}", openid);
     info!("hello");
     let obj = MyObj {
         name: String::from("Hello World"),
