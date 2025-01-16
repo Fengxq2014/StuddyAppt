@@ -1,5 +1,6 @@
 use actix_web::http::StatusCode;
 use derive_more::{Display, Error, From};
+use log::info;
 use mysql::{params, Pool, PooledConn};
 use mysql::prelude::Queryable;
 
@@ -41,6 +42,7 @@ pub fn create_user (pool: &Pool, open_id: String, phone:String, name :String) ->
 
     let last_insert_id = insert_user_data(&mut conn, open_id, phone, name)?;
 
+    info!("Inserted user data successfully. {}", last_insert_id);
     if last_insert_id > 0{
         Ok(())
     }else {
